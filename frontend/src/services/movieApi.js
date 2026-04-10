@@ -1,19 +1,23 @@
 import apiClient from "./apiClient";
 
+const publicRequest = { skipAuth: true };
+
 export const getAllMovies = async (genre) => {
   const response = await apiClient.get("/movies", {
+    ...publicRequest,
     params: genre ? { genre } : {},
   });
   return response.data;
 };
 
 export const getMovieById = async (id) => {
-  const response = await apiClient.get(`/movies/${id}`);
+  const response = await apiClient.get(`/movies/${id}`, publicRequest);
   return response.data;
 };
 
 export const browseMovies = async ({ section, genre, query, page = 0, size = 12 }) => {
   const response = await apiClient.get("/movies/browse", {
+    ...publicRequest,
     params: {
       section,
       genre,
@@ -27,13 +31,14 @@ export const browseMovies = async ({ section, genre, query, page = 0, size = 12 
 
 export const searchMovies = async (query) => {
   const response = await apiClient.get("/movies/search", {
+    ...publicRequest,
     params: { query },
   });
   return response.data;
 };
 
 export const getRecommendedMovies = async (id) => {
-  const response = await apiClient.get(`/movies/recommend/${id}`);
+  const response = await apiClient.get(`/movies/recommend/${id}`, publicRequest);
   return response.data;
 };
 
@@ -60,7 +65,7 @@ export const addComment = async (id, content) => {
 };
 
 export const getMovieComments = async (id) => {
-  const response = await apiClient.get(`/movies/${id}/comments`);
+  const response = await apiClient.get(`/movies/${id}/comments`, publicRequest);
   return response.data;
 };
 

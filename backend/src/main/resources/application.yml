@@ -31,7 +31,7 @@ spring:
 
 application:
   cors:
-    allowed-origin: ${CYAN_ALLOWED_ORIGIN:https://cyan-streaming.vercel.app}
+    allowed-origin-patterns: ${CYAN_ALLOWED_ORIGIN_PATTERNS:https://cyan-streaming.vercel.app,https://*.vercel.app,http://localhost:5173,http://127.0.0.1:5173}
   security:
     jwt:
       secret-key: ${CYAN_JWT_SECRET:cyan-streaming-super-secret-jwt-key-please-change}

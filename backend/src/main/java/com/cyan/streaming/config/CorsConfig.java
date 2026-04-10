@@ -11,17 +11,17 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class CorsConfig {
 
-    @Value("${application.cors.allowed-origin:https://cyan-streaming.vercel.app}")
-    private String allowedOrigin;
+    @Value("#{'${application.cors.allowed-origin-patterns:https://cyan-streaming.vercel.app,https://*.vercel.app,http://localhost:5173,http://127.0.0.1:5173}'.split(',')}")
+    private List<String> allowedOriginPatterns;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(allowedOrigin));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"));
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
