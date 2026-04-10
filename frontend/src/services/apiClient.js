@@ -8,6 +8,13 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
+  if (config.skipAuth) {
+    if (config.headers?.Authorization) {
+      delete config.headers.Authorization;
+    }
+    return config;
+  }
+
   try {
     const stored = localStorage.getItem(AUTH_STORAGE_KEY);
 
