@@ -30,6 +30,8 @@ spring:
       timeout: ${CYAN_REDIS_TIMEOUT:2000ms}
 
 application:
+  cors:
+    allowed-origin: ${CYAN_ALLOWED_ORIGIN:https://cyan-streaming.vercel.app}
   security:
     jwt:
       secret-key: ${CYAN_JWT_SECRET:cyan-streaming-super-secret-jwt-key-please-change}
