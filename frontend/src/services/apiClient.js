@@ -1,0 +1,27 @@
+import axios from "axios";
+
+export const AUTH_STORAGE_KEY = "cyan.auth";
+
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:8080/api",
+  timeout: 10000,
+});
+
+apiClient.interceptors.request.use((config) => {
+  try {
+    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+
+    if (stored) {
+      const { token } = JSON.parse(stored);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
+
+  return config;
+});
+
+export default apiClient;
