@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://cyan-streaming.onrender.com/api/:path*"
+    }
+  ]
+}
