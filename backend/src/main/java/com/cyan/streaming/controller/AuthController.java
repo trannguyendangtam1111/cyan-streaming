@@ -5,6 +5,8 @@ import com.cyan.streaming.dto.LoginRequest;
 import com.cyan.streaming.dto.RegisterRequest;
 import com.cyan.streaming.service.AuthService;
 import com.cyan.streaming.service.RateLimiterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.time.Duration;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Authentication and account access APIs")
 public class AuthController {
 
     private final AuthService authService;
@@ -26,11 +29,13 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Register a user", description = "Creates a new user account and returns an authentication token.")
     public AuthResponse register(@Valid @RequestBody RegisterRequest request) {
         return authService.register(request);
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Log in a user", description = "Authenticates a user and returns a JWT token.")
     public AuthResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
         rateLimiterService.validateRequest(
                 "login:" + httpServletRequest.getRemoteAddr(),
