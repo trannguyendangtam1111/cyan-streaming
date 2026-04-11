@@ -8,11 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-    List<Movie> findAllByOrderByRatingDescReleaseYearDesc();
+    List<Movie> findAllByOrderByRatingDescReleaseYearDesc(Pageable pageable);
 
-    List<Movie> findByGenreIgnoreCaseOrderByRatingDescReleaseYearDesc(String genre);
+    List<Movie> findByGenreIgnoreCaseOrderByRatingDescReleaseYearDesc(String genre, Pageable pageable);
 
-    List<Movie> findByTitleContainingIgnoreCaseOrderByRatingDescReleaseYearDesc(String title);
+    List<Movie> findByTitleContainingIgnoreCaseOrderByRatingDescReleaseYearDesc(String title, Pageable pageable);
 
     List<Movie> findTop6ByGenreIgnoreCaseAndIdNotOrderByRatingDescReleaseYearDesc(String genre, Long id);
 

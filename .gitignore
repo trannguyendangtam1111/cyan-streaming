@@ -5,3 +5,5 @@ frontend/dist/
 .DS_Store
 .idea/
 .vscode/
+application-local.yml
+application-dev.yml
