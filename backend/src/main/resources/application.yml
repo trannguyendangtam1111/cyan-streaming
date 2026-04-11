@@ -5,17 +5,16 @@ spring:
   application:
     name: cyan-backend
   datasource:
-    url: jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
-    username: postgres.euiixfuhsnjldqvwdnea
-    password: Trannguyendangtam11
+    url: ${CYAN_DB_URL}
+    username: ${CYAN_DB_USERNAME}
+    password: ${CYAN_DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
   cache:
     type: ${CYAN_CACHE_TYPE:simple}
@@ -34,5 +33,5 @@ application:
     allowed-origin-patterns: ${CYAN_ALLOWED_ORIGIN_PATTERNS:https://cyan-streaming.vercel.app,https://*.vercel.app,http://localhost:5173,http://127.0.0.1:5173}
   security:
     jwt:
-      secret-key: ${CYAN_JWT_SECRET:cyan-streaming-super-secret-jwt-key-please-change}
+      secret-key: ${CYAN_JWT_SECRET}
       expiration: ${CYAN_JWT_EXPIRATION:86400000}

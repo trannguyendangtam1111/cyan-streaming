@@ -46,12 +46,6 @@ public class MovieController {
         return movieService.searchMovies(query);
     }
 
-    @GetMapping("/genre/{genre}")
-    @Operation(summary = "Get movies by genre", description = "Returns movies that belong to the provided genre.")
-    public List<MovieResponse> getMoviesByGenre(@PathVariable String genre) {
-        return movieService.getMovies(genre);
-    }
-
     @GetMapping("/browse")
     @Operation(summary = "Browse movies", description = "Browses movies with section, genre, text query, and pagination filters.")
     public PagedResponse<MovieResponse> browseMovies(

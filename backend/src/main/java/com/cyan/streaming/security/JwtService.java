@@ -65,12 +65,11 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes;
         try {
-            keyBytes = Decoders.BASE64.decode(secretKey);
-        } catch (IllegalArgumentException exception) {
-            keyBytes = secretKey.getBytes();
+            byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+            return Keys.hmacShaKeyFor(keyBytes);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("CYAN_JWT_SECRET is not valid Base64 — provide a Base64-encoded secret", e);
         }
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

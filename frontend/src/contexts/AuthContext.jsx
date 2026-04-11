@@ -6,10 +6,10 @@ export const AuthContext = createContext(null);
 
 const readStoredAuth = () => {
   try {
-    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    const stored = sessionStorage.getItem(AUTH_STORAGE_KEY);
     return stored ? JSON.parse(stored) : null;
   } catch {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
     return null;
   }
 };
@@ -19,11 +19,11 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     if (auth) {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
+      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
       return;
     }
 
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
   }, [auth]);
 
   const login = async (payload) => {
