@@ -43,9 +43,10 @@ public class MovieService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "movies", key = "#genre == null || #genre.isBlank() ? 'all' : #genre.toLowerCase()")
     public List<MovieResponse> getMovies(String genre) {
+        Pageable limit = PageRequest.ofSize(100);
         List<Movie> movies = genre == null || genre.isBlank()
-                ? movieRepository.findAllByOrderByRatingDescReleaseYearDesc()
-                : movieRepository.findByGenreIgnoreCaseOrderByRatingDescReleaseYearDesc(genre);
+                ? movieRepository.findAllByOrderByRatingDescReleaseYearDesc(limit)
+                : movieRepository.findByGenreIgnoreCaseOrderByRatingDescReleaseYearDesc(genre, limit);
 
         return movies.stream()
                 .map(movieMapper::toResponse)
@@ -63,7 +64,7 @@ public class MovieService {
             return getMovies(null);
         }
 
-        return movieRepository.findByTitleContainingIgnoreCaseOrderByRatingDescReleaseYearDesc(query).stream()
+        return movieRepository.findByTitleContainingIgnoreCaseOrderByRatingDescReleaseYearDesc(query, PageRequest.ofSize(50)).stream()
                 .map(movieMapper::toResponse)
                 .toList();
     }
@@ -152,7 +153,7 @@ public class MovieService {
     @Transactional(readOnly = true)
     public List<CommentResponse> getComments(Long movieId) {
         getMovieEntityById(movieId);
-        return commentRepository.findByMovieIdOrderByCreatedAtDesc(movieId).stream()
+        return commentRepository.findByMovieIdOrderByCreatedAtDesc(movieId, PageRequest.ofSize(50)).stream()
                 .map(commentMapper::toResponse)
                 .toList();
     }

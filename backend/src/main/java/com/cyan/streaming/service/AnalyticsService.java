@@ -20,7 +20,12 @@ public class AnalyticsService {
 
     @Transactional
     public AnalyticsEventResponse trackEvent(AnalyticsEventRequest request, String actor) {
-        AnalyticsEventType eventType = AnalyticsEventType.valueOf(request.eventType().trim().toUpperCase(Locale.ROOT));
+        AnalyticsEventType eventType;
+        try {
+            eventType = AnalyticsEventType.valueOf(request.eventType().trim().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown event type: " + request.eventType());
+        }
 
         AnalyticsEvent event = analyticsEventRepository.save(AnalyticsEvent.builder()
                 .eventType(eventType)
