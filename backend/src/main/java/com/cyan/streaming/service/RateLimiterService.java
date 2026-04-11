@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,5 +30,19 @@ public class RateLimiterService {
 
             bucket.addLast(now);
         }
+    }
+
+    @Scheduled(fixedRate = 300_000)
+    public void evictStaleBuckets() {
+        long cutoff = System.currentTimeMillis() - Duration.ofMinutes(10).toMillis();
+        requestBuckets.entrySet().removeIf(entry -> {
+            Deque<Long> bucket = entry.getValue();
+            synchronized (bucket) {
+                while (!bucket.isEmpty() && bucket.peekFirst() < cutoff) {
+                    bucket.pollFirst();
+                }
+                return bucket.isEmpty();
+            }
+        });
     }
 }
