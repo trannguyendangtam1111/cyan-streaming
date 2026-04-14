@@ -16,6 +16,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Configuration
 @RequiredArgsConstructor
@@ -72,7 +74,8 @@ public class DataSeeder {
 
     private List<Movie> seedMovies() {
         if (movieRepository.count() > 0) {
-            return movieRepository.findAllByOrderByRatingDescReleaseYearDesc();
+            Pageable pageable = PageRequest.of(0, 100);
+            return movieRepository.findAllByOrderByRatingDescReleaseYearDesc(pageable);
         }
 
         List<Movie> allMovies = buildAllMovies();

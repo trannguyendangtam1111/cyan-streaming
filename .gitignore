@@ -7,3 +7,4 @@ frontend/dist/
 .vscode/
 application-local.yml
 application-dev.yml
+.claude/
