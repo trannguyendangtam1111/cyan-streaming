@@ -16,7 +16,7 @@ apiClient.interceptors.request.use((config) => {
   }
 
   try {
-    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    const stored = sessionStorage.getItem(AUTH_STORAGE_KEY);
 
     if (stored) {
       const { token } = JSON.parse(stored);
@@ -25,7 +25,7 @@ apiClient.interceptors.request.use((config) => {
       }
     }
   } catch {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
   }
 
   return config;
@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       try {
-        localStorage.removeItem(AUTH_STORAGE_KEY);
+        sessionStorage.removeItem(AUTH_STORAGE_KEY);
       } catch {
         // ignore storage failures
       }
