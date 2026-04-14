@@ -74,7 +74,7 @@ public class DataSeeder {
     }
 
     private List<Movie> seedMovies() {
-        if (movieRepository.count() > 0) {
+        if (movieRepository.count() >= 1000) {
             Pageable pageable = PageRequest.of(0, 100);
             return movieRepository.findAllByOrderByRatingDescReleaseYearDesc(pageable);
         }
