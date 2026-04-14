@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
 import RatingStars from "../components/RatingStars";
@@ -49,8 +50,37 @@ function MovieDetailPage() {
     );
   }
 
+  const trimmedDescription =
+    typeof movie.description === "string"
+      ? movie.description.slice(0, 160)
+      : "";
+
   return (
     <section className="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>{`${movie.title} — Cyan`}</title>
+        <meta name="description" content={trimmedDescription} />
+        <meta property="og:title" content={`${movie.title} — Cyan`} />
+        <meta property="og:description" content={trimmedDescription} />
+        <meta property="og:image" content={movie.thumbnailUrl} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Movie",
+            name: movie.title,
+            description: movie.description,
+            image: movie.thumbnailUrl,
+            dateCreated: String(movie.releaseYear),
+            genre: movie.genre,
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: movie.rating,
+              bestRating: "10",
+              ratingCount: 100,
+            },
+          })}
+        </script>
+      </Helmet>
       <div
         className="overflow-hidden rounded-[2rem] border border-white/10"
         style={{
@@ -92,6 +122,8 @@ function MovieDetailPage() {
               <img
                 src={movie.thumbnailUrl}
                 alt={movie.title}
+                loading="lazy"
+                decoding="async"
                 className="aspect-[16/10] w-full rounded-[1.4rem] object-cover"
               />
               <div className="mt-5 space-y-3 text-sm text-slate-300">

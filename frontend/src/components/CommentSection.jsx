@@ -78,10 +78,19 @@ function CommentSection({ movieId }) {
         <p className="mt-6 text-sm text-slate-400">Log in to join the conversation.</p>
       )}
 
-      {error && <p className="mt-4 text-sm text-red-300">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-4 text-sm text-red-300">
+          {error}
+        </p>
+      )}
 
       <div className="mt-8 space-y-4">
-        {loading && <SkeletonLoader variant="comments" count={3} />}
+        {loading && (
+          <div role="status" aria-live="polite">
+            <span className="sr-only">Loading comments...</span>
+            <SkeletonLoader variant="comments" count={3} />
+          </div>
+        )}
         {!loading &&
           comments.map((comment) => (
             <article key={comment.id} className="rounded-[1.5rem] border border-white/10 bg-slate-950/60 p-5">

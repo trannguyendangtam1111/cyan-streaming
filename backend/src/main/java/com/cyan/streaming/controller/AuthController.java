@@ -30,7 +30,14 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Register a user", description = "Creates a new user account and returns an authentication token.")
-    public AuthResponse register(@Valid @RequestBody RegisterRequest request) {
+    public AuthResponse register(
+            @Valid @RequestBody RegisterRequest request,
+            HttpServletRequest httpServletRequest) {
+        rateLimiterService.validateRequest(
+                "register:" + httpServletRequest.getRemoteAddr(),
+                3,
+                Duration.ofHours(1)
+        );
         return authService.register(request);
     }
 

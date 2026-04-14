@@ -51,7 +51,7 @@ function AdminDashboard() {
   };
 
   const handleDelete = async (movie) => {
-    if (!window.confirm(`Delete "${movie.title}"?`)) {
+    if (!window.confirm(`Delete "${movie.title}"? This cannot be undone.`)) {
       return;
     }
 
