@@ -47,6 +47,7 @@ public class DataSeeder {
             List<Movie> movies = seedMovies();
             User admin = seedUser("admin", "admin@cyan.local", "Admin@123", Role.ADMIN);
             User viewer = seedUser("viewer", "viewer@cyan.local", "Viewer@123", Role.USER);
+            seedUser("guest", "guest@cyan.com", "Guest@123", Role.USER);
 
             if (ratingRepository.count() == 0 && movies.size() >= 2) {
                 ratingRepository.saveAll(List.of(

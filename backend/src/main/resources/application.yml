@@ -33,5 +33,5 @@ application:
     allowed-origin-patterns: ${CYAN_ALLOWED_ORIGIN_PATTERNS:https://cyan-streaming.vercel.app,https://*.vercel.app,http://localhost:5173,http://127.0.0.1:5173}
   security:
     jwt:
-      secret-key: ${CYAN_JWT_SECRET}
+      secret-key: ${CYAN_JWT_SECRET:cyan-dev-secret-key}
       expiration: ${CYAN_JWT_EXPIRATION:86400000}
