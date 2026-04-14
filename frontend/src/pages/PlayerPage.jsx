@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import VideoPlayer from "../components/VideoPlayer";
 import useAuth from "../hooks/useAuth";
@@ -158,6 +159,9 @@ function PlayerPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>{`Watching: ${movie?.title ?? "..."} — Cyan`}</title>
+      </Helmet>
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-300">Now Playing</p>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -31,8 +32,12 @@ function LoginPage() {
 
   return (
     <section className="mx-auto max-w-xl px-4 py-14 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Login — Cyan</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit}
+        aria-describedby={error ? "login-error-msg" : undefined}
         className="space-y-5 rounded-[2rem] border border-white/10 bg-slate-900/70 p-8 shadow-2xl shadow-slate-950/40"
       >
         <div>
@@ -46,6 +51,7 @@ function LoginPage() {
             value={form.identifier}
             onChange={(event) => setForm((current) => ({ ...current, identifier: event.target.value }))}
             className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400/40"
+            autoComplete="username"
             required
           />
         </label>
@@ -57,11 +63,16 @@ function LoginPage() {
             value={form.password}
             onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
             className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400/40"
+            autoComplete="current-password"
             required
           />
         </label>
 
-        {error && <p className="text-sm text-red-300">{error}</p>}
+        {error && (
+          <p id="login-error-msg" role="alert" className="text-sm text-red-300">
+            {error}
+          </p>
+        )}
 
         <button
           type="submit"

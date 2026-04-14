@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -34,8 +35,12 @@ function RegisterPage() {
 
   return (
     <section className="mx-auto max-w-xl px-4 py-14 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Create Account — Cyan</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit}
+        aria-describedby={error ? "register-error-msg" : undefined}
         className="space-y-5 rounded-[2rem] border border-white/10 bg-slate-900/70 p-8 shadow-2xl shadow-slate-950/40"
       >
         <div>
@@ -49,6 +54,7 @@ function RegisterPage() {
             value={form.username}
             onChange={(event) => setForm((current) => ({ ...current, username: event.target.value }))}
             className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400/40"
+            autoComplete="username"
             required
           />
         </label>
@@ -60,6 +66,7 @@ function RegisterPage() {
             value={form.email}
             onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
             className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400/40"
+            autoComplete="email"
             required
           />
         </label>
@@ -71,11 +78,16 @@ function RegisterPage() {
             value={form.password}
             onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
             className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400/40"
+            autoComplete="new-password"
             required
           />
         </label>
 
-        {error && <p className="text-sm text-red-300">{error}</p>}
+        {error && (
+          <p id="register-error-msg" role="alert" className="text-sm text-red-300">
+            {error}
+          </p>
+        )}
 
         <button
           type="submit"
