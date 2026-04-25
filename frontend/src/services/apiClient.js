@@ -2,9 +2,20 @@ import axios from "axios";
 
 export const AUTH_STORAGE_KEY = "cyan.auth";
 
+const baseURL = import.meta.env.VITE_API_URL;
+if (!baseURL) {
+  throw new Error(
+    "VITE_API_URL is not set. Define it in .env.local or Vercel env settings. " +
+      "Expected format: https://api.streaming.cyan.engineer/api",
+  );
+}
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? "/api",
+  baseURL,
   timeout: 10000,
+  // Auth is Bearer JWT in the Authorization header (set by the request interceptor below).
+  // No cookies are sent or expected, so leave withCredentials OFF.
+  withCredentials: false,
 });
 
 apiClient.interceptors.request.use((config) => {

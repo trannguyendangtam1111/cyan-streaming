@@ -2,12 +2,26 @@ import apiClient from "./apiClient";
 
 const publicRequest = { skipAuth: true };
 
+// Backend endpoints that are supposed to return List<MovieResponse>.
+// If the response shape ever changes (paged object, error JSON, HTML),
+// we coerce to an empty array so the UI doesn't crash on `.map`.
+const expectArray = (data, endpoint) => {
+  if (Array.isArray(data)) return data;
+  // eslint-disable-next-line no-console
+  console.warn(
+    `[movieApi] ${endpoint} expected an array, received:`,
+    data,
+    "— check VITE_API_URL and the backend response shape.",
+  );
+  return [];
+};
+
 export const getAllMovies = async (genre) => {
   const response = await apiClient.get("/movies", {
     ...publicRequest,
     params: genre ? { genre } : {},
   });
-  return response.data;
+  return expectArray(response.data, "GET /movies");
 };
 
 export const getMovieById = async (id) => {
@@ -34,12 +48,12 @@ export const searchMovies = async (query) => {
     ...publicRequest,
     params: { query },
   });
-  return response.data;
+  return expectArray(response.data, "GET /movies/search");
 };
 
 export const getRecommendedMovies = async (id) => {
   const response = await apiClient.get(`/movies/recommend/${id}`, publicRequest);
-  return response.data;
+  return expectArray(response.data, `GET /movies/recommend/${id}`);
 };
 
 export const createMovie = async (movie) => {

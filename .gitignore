@@ -9,3 +9,5 @@ application-local.yml
 application-dev.yml
 .claude/
 .env
+.env.local
+.env.*.local

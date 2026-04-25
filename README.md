@@ -98,6 +98,8 @@ Notes:
 
 ```powershell
 $env:VITE_API_URL="http://localhost:8080/api"
+# Production:
+# $env:VITE_API_URL="https://api.streaming.cyan.engineer/api"
 ```
 
 Defaults are also documented in [.env.example](C:/Users/Admin/OneDrive%20-%20PROIZU/Desktop/cyanStreaming/.env.example) and [frontend/.env.example](C:/Users/Admin/OneDrive%20-%20PROIZU/Desktop/cyanStreaming/frontend/.env.example).

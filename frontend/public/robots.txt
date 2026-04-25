@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /watch/
 
-Sitemap: https://cyan-streaming.vercel.app/sitemap.xml
+Sitemap: https://streaming.cyan.engineer/sitemap.xml

@@ -106,14 +106,19 @@ function HomePage() {
     loadProgress();
   }, [isAuthenticated]);
 
-  const featuredMovie = useMemo(() => allMovies[0], [allMovies]);
+  // Defensive: API layer already coerces to []; this guards against any
+  // future code path that calls setAllMovies with non-array data.
+  const safeAllMovies = Array.isArray(allMovies) ? allMovies : [];
+  const safeMovies = Array.isArray(movies) ? movies : [];
+
+  const featuredMovie = useMemo(() => safeAllMovies[0], [safeAllMovies]);
 
   const genres = useMemo(
-    () => [...new Set(allMovies.map((movie) => movie.genre))].sort((first, second) => first.localeCompare(second)),
-    [allMovies],
+    () => [...new Set(safeAllMovies.map((movie) => movie.genre))].sort((first, second) => first.localeCompare(second)),
+    [safeAllMovies],
   );
 
-  const sortedMovies = useMemo(() => sortMovies(movies, sortBy), [movies, sortBy]);
+  const sortedMovies = useMemo(() => sortMovies(safeMovies, sortBy), [safeMovies, sortBy]);
 
   const isFiltering = debouncedQuery.trim() || genre !== "All";
 

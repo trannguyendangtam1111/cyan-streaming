@@ -1,5 +1,6 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
 
 spring:
   application:
@@ -30,7 +31,7 @@ spring:
 
 application:
   cors:
-    allowed-origin-patterns: ${CYAN_ALLOWED_ORIGIN_PATTERNS:https://cyan-streaming.vercel.app,https://*.vercel.app,http://localhost:5173,http://127.0.0.1:5173}
+    allowed-origins: ${CYAN_ALLOWED_ORIGINS:https://streaming.cyan.engineer,http://localhost:5173,http://127.0.0.1:5173}
   security:
     jwt:
       secret-key: ${CYAN_JWT_SECRET:cyan-dev-secret-key}
